@@ -1,5 +1,5 @@
 ﻿namespace getargv.cs;
-public class Class1
+public class Getargv
 {
 
 }
