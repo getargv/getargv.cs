@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Getargv", "Getargv\Getargv.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Getargv.Tests", "Getargv.Tests\Getargv.Tests.csproj", "{967186ED-A8C9-4A17-BE2D-D00A9C7C3315}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Getargv.Tool", "Getargv.Tool\Getargv.Tool.csproj", "{FC1206CB-EBE8-4FE7-BF03-9613E7CFD467}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{967186ED-A8C9-4A17-BE2D-D00A9C7C3315}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{967186ED-A8C9-4A17-BE2D-D00A9C7C3315}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{967186ED-A8C9-4A17-BE2D-D00A9C7C3315}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC1206CB-EBE8-4FE7-BF03-9613E7CFD467}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC1206CB-EBE8-4FE7-BF03-9613E7CFD467}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC1206CB-EBE8-4FE7-BF03-9613E7CFD467}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC1206CB-EBE8-4FE7-BF03-9613E7CFD467}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

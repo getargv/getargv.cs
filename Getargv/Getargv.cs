@@ -40,11 +40,13 @@ public static class Getargv
     [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static extern void free_ArgvArgcResult(ref ArgvArgcResult result);
     [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static extern void free_ArgvResult(ref ArgvResult result);
 
-    public static string asString(int pid, System.Text.Encoding encoding)
+    public static string asString(int pid, System.Text.Encoding encoding, bool nuls = false, uint skip = 0)
     {
         if (pid < 0 || pid > PID_MAX) throw new ArgumentOutOfRangeException($"pid {pid} out of range");
         GetArgvOptions opt = new GetArgvOptions();
         opt.pid = pid;
+        opt.skip = skip;
+        opt.nuls = nuls;
         ArgvResult res = new ArgvResult();
         if (get_argv_of_pid(ref opt, ref res)) {
             unsafe {
