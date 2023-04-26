@@ -45,20 +45,20 @@ public static class Getargv
         GetArgvOptions opt = new GetArgvOptions();
         opt.pid = pid;
         ArgvResult res = new ArgvResult();
-        unsafe {
-            if (get_argv_of_pid(ref opt, ref res)) {
+        if (get_argv_of_pid(ref opt, ref res)) {
+            unsafe {
                 string ret = encoding.GetString(res.start_pointer, Convert.ToInt32(res.end_pointer - res.start_pointer + 1));
                 free_ArgvResult(ref res);
                 return ret;
-            } else {
-                //handle failure
-                switch (Marshal.GetLastPInvokeError()) {
-                    case EPERM: throw new UnauthorizedAccessException($"Do not have permission to access args of PID: {pid}");
-                    case ESRCH: throw new ArgumentException($"PID {pid} does not exist", nameof(pid));
-                    case ENAMETOOLONG: throw new System.Data.DataException("Arguments of PID {pid} are malformed");
-                    case ENOMEM: throw new InsufficientMemoryException("Failed to allocate memory.");
-                    default: throw new NotImplementedException("Unknown errno encountered.");
-                }
+            }
+        } else {
+            //handle failure
+            switch (Marshal.GetLastPInvokeError()) {
+                case EPERM: throw new UnauthorizedAccessException($"Do not have permission to access args of PID: {pid}");
+                case ESRCH: throw new ArgumentException($"PID {pid} does not exist", nameof(pid));
+                case ENAMETOOLONG: throw new System.Data.DataException("Arguments of PID {pid} are malformed");
+                case ENOMEM: throw new InsufficientMemoryException("Failed to allocate memory.");
+                default: throw new NotImplementedException("Unknown errno encountered.");
             }
         }
     }
