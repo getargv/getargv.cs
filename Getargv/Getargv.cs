@@ -5,21 +5,21 @@ namespace Getargv;
 // PlatformNotSupportedException
 
 [StructLayout(LayoutKind.Sequential)]
-public struct GetArgvOptions {
+struct GetArgvOptions {
     public nuint skip;
     public nint  pid;
     public bool  nuls;
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public unsafe struct ArgvArgcResult {
+unsafe struct ArgvArgcResult {
     public byte*  buffer;
     public byte** argv;
     public nuint  argc;
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public unsafe struct ArgvResult {
+unsafe struct ArgvResult {
     public byte* buffer;
     public byte* start_pointer;
     public byte* end_pointer;
