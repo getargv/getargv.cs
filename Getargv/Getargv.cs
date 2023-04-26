@@ -33,11 +33,11 @@ public static class Getargv
     const int ENOMEM = 12;
     const int ENAMETOOLONG = 63;
 
-    [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static unsafe extern bool print_argv_of_pid(byte* start_pointer, byte* end_pointer);
-    [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static unsafe extern bool get_argv_of_pid(GetArgvOptions* options, ArgvResult* result);
-    [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static unsafe extern bool get_argv_and_argc_of_pid(nint pid, ArgvArgcResult* result);
-    [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static unsafe extern void free_ArgvArgcResult(ArgvArgcResult* result);
-    [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static unsafe extern void free_ArgvResult(ArgvResult* result);
+    [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static extern bool print_argv_of_pid(ref byte start_pointer, ref byte end_pointer);
+    [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static extern bool get_argv_of_pid(ref GetArgvOptions options, ref ArgvResult result);
+    [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static extern bool get_argv_and_argc_of_pid(nint pid, ref ArgvArgcResult result);
+    [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static extern void free_ArgvArgcResult(ref ArgvArgcResult result);
+    [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static extern void free_ArgvResult(ref ArgvResult result);
 
     public static string asString(int pid, System.Text.Encoding encoding)
     {
@@ -46,9 +46,9 @@ public static class Getargv
         opt.pid = pid;
         ArgvResult res = new ArgvResult();
         unsafe {
-            if (get_argv_of_pid(&opt, &res)) {
+            if (get_argv_of_pid(ref opt, ref res)) {
                 string ret = encoding.GetString(res.start_pointer, Convert.ToInt32(res.end_pointer - res.start_pointer + 1));
-                free_ArgvResult(&res);
+                free_ArgvResult(ref res);
                 return ret;
             } else {
                 //handle failure
