@@ -3,8 +3,7 @@ using System.Text;
 
 namespace Getargv.Tests;
 
-public class UnitTest1
-{
+public class UnitTest1 {
     [Fact]
     public void goodPidShouldNotRaiseError()
     {
@@ -21,5 +20,4 @@ public class UnitTest1
         Exception ex = Assert.ThrowsAny<Exception>(() => Getargv.asString(pid, Encoding.UTF8));
         Assert.Equal(exceptionType, ex.GetType());
     }
-
 }
