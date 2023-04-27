@@ -19,7 +19,7 @@ var pidArgument = new Argument<uint>(name: "pid", description: "The pid of the p
 rootCommand.Add(pidArgument);
 
 rootCommand.SetHandler<uint,bool,uint>(
-    async (skip, nuls, pid) => {
+    (skip, nuls, pid) => {
         try{
         string res = Getargv.Getargv.asString(Environment.ProcessId, Encoding.UTF8, nuls, skip);
         Console.WriteLine(res);
