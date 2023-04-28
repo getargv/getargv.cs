@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <ApplicationId>cam.narzt.getargv.cs.tests</ApplicationId>
   </PropertyGroup>
 
   <ItemGroup>

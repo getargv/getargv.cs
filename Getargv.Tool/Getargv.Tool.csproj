@@ -13,6 +13,7 @@
     <TargetFramework>net7.0-macos</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <ApplicationId>cam.narzt.getargv.cs.tool</ApplicationId>
   </PropertyGroup>
 
 </Project>
