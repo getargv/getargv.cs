@@ -12,6 +12,7 @@ public class GetargvTests {
     }
 
     [Theory]
+    [InlineData(Getargv.PID_MAX+1, typeof(ArgumentOutOfRangeException))]
     [InlineData(-1, typeof(ArgumentOutOfRangeException))]
     [InlineData(0, typeof(UnauthorizedAccessException))]
     [InlineData(1, typeof(UnauthorizedAccessException))]
@@ -29,6 +30,7 @@ public class GetargvTests {
     }
 
     [Theory]
+    [InlineData(Getargv.PID_MAX+1, typeof(ArgumentOutOfRangeException))]
     [InlineData(-1, typeof(ArgumentOutOfRangeException))]
     [InlineData(0, typeof(UnauthorizedAccessException))]
     [InlineData(1, typeof(UnauthorizedAccessException))]
