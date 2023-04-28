@@ -15,6 +15,15 @@ public class GetargvTests {
             $"{Environment.CurrentDirectory}/Getargv.Tests.deps.json"
         }.Concat(Environment.GetCommandLineArgs()).ToArray();
     }
+    string argString(string sep) {
+        return string.Join(sep, args()) + "\0";
+    }
+    byte[] argBytes(string sep) {
+        return Encoding.ASCII.GetBytes( argString(sep) );
+    }
+    byte[][] argBytesArray() {
+        return args().Select(s => Encoding.ASCII.GetBytes(s+"\0")).ToArray();
+    }
 
     [Fact]
     public void asBytesGoodPidShouldNotRaiseError()
@@ -34,11 +43,13 @@ public class GetargvTests {
         Assert.Equal(exceptionType, ex.GetType());
     }
 
-    [Fact]
-    public void asBytesShouldReturnCorrectBytes()
+    [Theory]
+    [InlineData("\0", false)]
+    [InlineData(" ", true)]
+    public void asBytesShouldReturnCorrectBytes(string sep, bool nuls)
     {
-        var bytes = Getargv.asBytes(Environment.ProcessId);
-        Assert.Equal(Encoding.ASCII.GetBytes( string.Join("\0", args()) + "\0" ), bytes);
+        var bytes = Getargv.asBytes(Environment.ProcessId, nuls);
+        Assert.Equal(argBytes(sep), bytes);
     }
 
     [Fact]
@@ -59,11 +70,13 @@ public class GetargvTests {
         Assert.Equal(exceptionType, ex.GetType());
     }
 
-    [Fact]
-    public void asStringShouldReturnCorrectString()
+    [Theory]
+    [InlineData("\0", false)]
+    [InlineData(" ", true)]
+    public void asStringShouldReturnCorrectString(string sep, bool nuls)
     {
-        var str = Getargv.asString(Environment.ProcessId, Encoding.ASCII);
-        Assert.Equal(string.Join("\0", args()) + "\0", str);
+        var str = Getargv.asString(Environment.ProcessId, Encoding.ASCII, nuls);
+        Assert.Equal(argString(sep), str);
     }
 
     [Fact]
@@ -88,7 +101,7 @@ public class GetargvTests {
     public void asBytesArrayShouldReturnCorrectByteArrays()
     {
         var array = Getargv.asBytesArray(Environment.ProcessId);
-        Assert.Equal(args().Select(s => Encoding.ASCII.GetBytes(s+"\0")), array);
+        Assert.Equal(argBytesArray(), array);
     }
 
     [Fact]
