@@ -34,6 +34,7 @@ jobs:
     #   uses: actions/setup-dotnet@v3
     #   with:
     #     dotnet-version: 7.0.x
+    # version support doc: https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core
     - name: Restore dependencies
       run: dotnet restore
       working-directory: getargv.cs
