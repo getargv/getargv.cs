@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0-macos</TargetFramework>
+    <TargetArchitectures>x64</TargetArchitectures>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
