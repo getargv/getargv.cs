@@ -9,7 +9,7 @@ namespace Getargv;
 struct GetArgvOptions {
     public uint skip;
     public int  pid;
-    public bool  nuls;
+    public bool nuls;
 }
 
 [SupportedOSPlatform("macos")]
@@ -83,17 +83,18 @@ public static class Getargv
         if (pid < 0 || pid > PID_MAX) throw new ArgumentOutOfRangeException($"pid {pid} out of range");
         ArgvArgcResult res = new ArgvArgcResult();
         if (get_argv_and_argc_of_pid(pid, out res)) {
-            int elementSize = Marshal.SizeOf(typeof(IntPtr));
+            int ptrSize = Marshal.SizeOf(typeof(IntPtr));
+            int byteSize = Marshal.SizeOf(typeof(byte));
             byte[][] ret = new byte[res.argc][];
             for (nuint i = 0; i < res.argc; i++) {
                 unsafe {
-                    byte* ptr = (byte*)Marshal.ReadIntPtr((IntPtr)res.argv, elementSize * (int)i);
+                    byte* ptr = (byte*)Marshal.ReadIntPtr((IntPtr)res.argv, ptrSize * (int)i);
                     ulong len = 0;
                     if (i < res.argc-1) {
-                        byte* nextptr = (byte*)Marshal.ReadIntPtr((IntPtr)res.argv, elementSize * ((int)i+1));
-                        len = (ulong)((nextptr-ptr)/elementSize);
+                        byte* nextptr = (byte*)Marshal.ReadIntPtr((IntPtr)res.argv, ptrSize * ((int)i+1));
+                        len = (ulong)((nextptr-ptr)/byteSize);
                     } else {
-                        while (Marshal.ReadByte((IntPtr)ptr, (int)len)!=0){len++;}
+                        while (Marshal.ReadByte((IntPtr)ptr, (int)len) != 0){len++;}
                         len++;// len was index of nul, add one to get length of byte[] including nul
                     }
                     ret[i] = new byte[len];
