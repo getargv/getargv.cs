@@ -3,8 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Getargv;
 
-// PlatformNotSupportedException
-
+[SupportedOSPlatform("macos")]
 [StructLayout(LayoutKind.Sequential)]
 struct GetArgvOptions {
     public uint skip;
@@ -12,6 +11,7 @@ struct GetArgvOptions {
     public bool  nuls;
 }
 
+[SupportedOSPlatform("macos")]
 [StructLayout(LayoutKind.Sequential)]
 unsafe struct ArgvArgcResult {
     public byte*  buffer;
@@ -19,6 +19,7 @@ unsafe struct ArgvArgcResult {
     public nuint  argc;
 }
 
+[SupportedOSPlatform("macos")]
 [StructLayout(LayoutKind.Sequential)]
 unsafe struct ArgvResult {
     public byte* buffer;
@@ -26,6 +27,7 @@ unsafe struct ArgvResult {
     public byte* end_pointer;
 }
 
+[SupportedOSPlatform("macos")]
 public static class Getargv
 {
     public const int PID_MAX = 99999; // per https://github.com/dotnet/core/blob/main/release-notes/7.0/supported-os.md#macos only 10.15+ is supported, no need for 10.5 support
