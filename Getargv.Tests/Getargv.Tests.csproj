@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0-macos</TargetFramework>
-    <TargetArchitectures>x86_64;arm64</TargetArchitectures>
+    <RuntimeIdentifiers>osx-x64;osx-arm64</RuntimeIdentifiers>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
