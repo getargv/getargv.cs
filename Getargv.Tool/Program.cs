@@ -20,11 +20,15 @@ rootCommand.Add(pidArgument);
 
 rootCommand.SetHandler<uint,bool,uint>(
     (skip, nuls, pid) => {
-        try{
-        string res = Getargv.Getargv.asString(Environment.ProcessId, Encoding.UTF8, nuls, skip);
-        Console.WriteLine(res);
-        } catch (Exception ex) {
-            Console.WriteLine(ex.Message);
+        if (!OperatingSystem.IsMacOS()) {
+            throw new PlatformNotSupportedException("Only macOS is supported.");
+        } else {
+            try{
+                string res = Getargv.Getargv.asString(Environment.ProcessId, Encoding.UTF8, nuls, skip);
+                Console.WriteLine(res);
+            } catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+            }
         }
     },
     skipOption, nulsOption, pidArgument);
