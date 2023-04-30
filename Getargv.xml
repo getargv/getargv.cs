@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="Documentation.xsl" ?>
+<doc>
+    <assembly>
+        <name>Getargv</name>
+    </assembly>
+    <members>
+        <member name="T:Getargv.Getargv">
+            <summary>
+            Class that provides access to wrapped functions from libgetargv.
+            </summary>
+        </member>
+        <member name="F:Getargv.Getargv.PID_MAX">
+            <summary>
+            The maximum value a pid may have on macOS unless you've compiled a custom xnu kernel.
+            </summary>
+            <value>99,999</value>
+            <remarks>
+            Per <see href="https://github.com/dotnet/core/blob/main/release-notes/7.0/supported-os.md#macos">the docs</see> dotnet only supports macOS &gt;= 10.15, so there's no need for &lt;= 10.5 support which would make this constant 30,000 on those versions.
+            </remarks>
+        </member>
+        <member name="M:Getargv.Getargv.asBytes(System.Int32,System.Boolean,System.UInt32)">
+            <summary>
+            Get the arguments of the process specified by <paramref name="pid"/> as a byte array,
+            skipped ahead by <paramref name="skip"/> arguments, and with nuls converted to spaces
+            if <paramref name="nuls"/> is true.
+            </summary>
+            <param name="pid">The process whose arguments shold be returned.</param>
+            <param name="nuls">Convert nuls to spaces for human consumption.</param>
+            <param name="skip">Number of leading arguments to skip past.</param>
+            <returns>The arguments of the specified process <paramref name="pid"/>, formatted as requested</returns>
+            <exception cref="T:System.OverflowException"> Arguments are longer than <see cref="F:System.Int32.MaxValue">Int32.MaxValue</see>.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">If the <paramref name="pid"/> is &lt; 0 or &gt; <see cref="F:Getargv.Getargv.PID_MAX"/>, or if <paramref name="skip"/> is &gt; the number of args</exception>
+            <exception cref="T:System.UnauthorizedAccessException">if you do not have permission to view the args of the targetted process <paramref name="pid"/></exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pid"/> does not exist</exception>
+            <exception cref="T:System.Data.DataException">If the arguments of <paramref name="pid"/> are malformed</exception>
+            <exception cref="T:System.InsufficientMemoryException">If malloc fails to allocate memory</exception>
+            <exception cref="T:System.NotImplementedException">If an unexpected errno is encountered</exception>
+        </member>
+        <member name="M:Getargv.Getargv.asString(System.Int32,System.Text.Encoding,System.Boolean,System.UInt32)">
+             <summary>
+             Get the arguments of the process specified by <paramref name="pid"/> as a string with <paramref name="encoding"/>,
+             skipped ahead by <paramref name="skip"/> arguments, and with nuls converted to spaces if <paramref name="nuls"/> is true.
+             </summary>
+             <param name="pid">The process whose arguments shold be returned.</param>
+             <param name="encoding">The encoding to attempt to use to read the arguments of the process.</param>
+             <param name="nuls">Convert nuls to spaces for human consumption.</param>
+             <param name="skip">Number of leading arguments to skip past.</param>
+             <returns>The arguments of the specified process <paramref name="pid"/>, formatted as requested</returns>
+             <exception cref="T:System.OverflowException"> Arguments are longer than <see cref="F:System.Int32.MaxValue">Int32.MaxValue</see>.</exception>
+             <exception cref="T:System.ArgumentOutOfRangeException">If the <paramref name="pid"/> is &lt; 0 or &gt; <see cref="F:Getargv.Getargv.PID_MAX"/>, or if <paramref name="skip"/> is &gt; the number of args</exception>
+             <exception cref="T:System.UnauthorizedAccessException">if you do not have permission to view the args of the targetted process <paramref name="pid"/></exception>
+             <exception cref="T:System.ArgumentException">If <paramref name="pid"/> does not exist, or if the arguments contain invalid Unicode code points.</exception>
+             <exception cref="T:System.Data.DataException">If the arguments of <paramref name="pid"/> are malformed</exception>
+             <exception cref="T:System.InsufficientMemoryException">If malloc fails to allocate memory</exception>
+             <exception cref="T:System.NotImplementedException">If an unexpected errno is encountered</exception>
+             <exception cref="T:System.ArgumentNullException">If the argument bytes are null</exception>
+             <exception cref="T:System.Text.DecoderFallbackException">
+             If a decoding fallback occurred (for more information, see <see href="https://learn.microsoft.com/en-us/dotnet/standard/base-types/character-encoding">Character Encoding in .NET</see>) -and- <see cref="P:System.Text.Encoding.DecoderFallback">DecoderFallback</see> is set to <see cref="T:System.Text.DecoderExceptionFallback">DecoderExceptionFallback</see>.
+            </exception>
+        </member>
+        <member name="M:Getargv.Getargv.asBytesArray(System.Int32)">
+            <summary> Get the arguments of the process specified by <paramref name="pid"/> as an array of byte arrays</summary>
+            <param name="pid">The process whose arguments shold be returned.</param>
+            <returns>The arguments of the specified process <paramref name="pid"/> as byte arrays</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">If the <paramref name="pid"/> is &lt; 0 or &gt; <see cref="F:Getargv.Getargv.PID_MAX"/></exception>
+            <exception cref="T:System.UnauthorizedAccessException">if you do not have permission to view the args of the targetted process <paramref name="pid"/></exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pid"/> does not exist</exception>
+            <exception cref="T:System.Data.DataException">If the arguments of <paramref name="pid"/> are malformed</exception>
+            <exception cref="T:System.InsufficientMemoryException">If malloc fails to allocate memory</exception>
+            <exception cref="T:System.NotImplementedException">If an unexpected errno is encountered</exception>
+        </member>
+        <member name="M:Getargv.Getargv.asArray(System.Int32,System.Text.Encoding)">
+            <summary> Get the arguments of the process specified by <paramref name="pid"/> as an array of strings with <paramref name="encoding"/></summary>
+            <param name="pid">The process whose arguments shold be returned.</param>
+            <param name="encoding">The encoding to attempt to use to read the arguments of the process.</param>
+            <returns>The arguments of the specified process <paramref name="pid"/> as a string array</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">If the <paramref name="pid"/> is &lt; 0 or &gt; <see cref="F:Getargv.Getargv.PID_MAX"/></exception>
+            <exception cref="T:System.UnauthorizedAccessException">if you do not have permission to view the args of the targetted process <paramref name="pid"/></exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pid"/> does not exist, or if the arguments contain invalid Unicode code points.</exception>
+            <exception cref="T:System.Data.DataException">If the arguments of <paramref name="pid"/> are malformed</exception>
+            <exception cref="T:System.InsufficientMemoryException">If malloc fails to allocate memory</exception>
+            <exception cref="T:System.NotImplementedException">If an unexpected errno is encountered</exception>
+            <exception cref="T:System.ArgumentNullException">If the argument bytes are null</exception>
+            <exception cref="T:System.Text.DecoderFallbackException">
+            If a decoding fallback occurred (for more information, see <see href="https://learn.microsoft.com/en-us/dotnet/standard/base-types/character-encoding">Character Encoding in .NET</see>) -and- <see cref="P:System.Text.Encoding.DecoderFallback">DecoderFallback</see> is set to <see cref="T:System.Text.DecoderExceptionFallback">DecoderExceptionFallback</see>.
+            </exception>
+        </member>
+    </members>
+</doc>
