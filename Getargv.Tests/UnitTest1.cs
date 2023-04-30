@@ -1,30 +1,9 @@
 using Getargv;
-using System.Text;
 
 namespace Getargv.Tests;
 
 #pragma warning disable CA1416
 public class GetargvTests {
-    string[] args() {
-        return new string[]{
-            Environment.ProcessPath ?? System.Diagnostics.Process.GetCurrentProcess()?.MainModule?.FileName ?? "/usr/local/Cellar/dotnet/7.0.100/libexec/dotnet",
-            "exec",
-            "--runtimeconfig",
-            $"{Environment.CurrentDirectory}/Getargv.Tests.runtimeconfig.json",
-            "--depsfile",
-            $"{Environment.CurrentDirectory}/Getargv.Tests.deps.json"
-        }.Concat(Environment.GetCommandLineArgs()).ToArray();
-    }
-    string argString(string sep) {
-        return string.Join(sep, args()) + "\0";
-    }
-    byte[] argBytes(string sep) {
-        return Encoding.ASCII.GetBytes( argString(sep) );
-    }
-    byte[][] argBytesArray() {
-        return args().Select(s => Encoding.ASCII.GetBytes(s+"\0")).ToArray();
-    }
-
     [Fact]
     public void asBytesGoodPidShouldNotRaiseError()
     {
@@ -49,7 +28,7 @@ public class GetargvTests {
     public void asBytesShouldReturnCorrectBytes(string sep, bool nuls)
     {
         var bytes = Getargv.asBytes(Environment.ProcessId, nuls);
-        Assert.Equal(argBytes(sep), bytes);
+        Assert.Equal(TestHelper.argBytes(sep), bytes);
     }
 
     [Fact]
@@ -76,7 +55,7 @@ public class GetargvTests {
     public void asStringShouldReturnCorrectString(string sep, bool nuls)
     {
         var str = Getargv.asString(Environment.ProcessId, Encoding.ASCII, nuls);
-        Assert.Equal(argString(sep), str);
+        Assert.Equal(TestHelper.argString(sep), str);
     }
 
     [Fact]
@@ -101,7 +80,7 @@ public class GetargvTests {
     public void asBytesArrayShouldReturnCorrectByteArrays()
     {
         var array = Getargv.asBytesArray(Environment.ProcessId);
-        Assert.Equal(argBytesArray(), array);
+        Assert.Equal(TestHelper.argBytesArray(), array);
     }
 
     [Fact]
@@ -126,8 +105,7 @@ public class GetargvTests {
     public void asArrayShouldReturnCorrectStrings()
     {
         var array = Getargv.asArray(Environment.ProcessId, Encoding.ASCII);
-        Assert.Equal(args(), array);
+        Assert.Equal(TestHelper.args(), array);
     }
-
 }
 #pragma warning restore CA1416
