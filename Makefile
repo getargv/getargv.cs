@@ -19,4 +19,4 @@ sign: pack
 
 #publish: sign
 publish: pack
-	dotnet nuget push ./Getargv/bin/Release/Getargv.*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
+	dotnet nuget push ./Getargv/bin/Release/Getargv.*.nupkg --api-key $$NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
