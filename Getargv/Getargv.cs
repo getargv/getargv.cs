@@ -48,7 +48,7 @@ public static class Getargv
     const int ERANGE = 34;
     const int ENAMETOOLONG = 63;
 
-    [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static extern bool print_argv_of_pid(in byte start_pointer, in byte end_pointer);
+    //[DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static extern bool print_argv_of_pid(in byte start_pointer, in byte end_pointer);
     [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static extern bool get_argv_of_pid(in GetArgvOptions options, out ArgvResult result);
     [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static extern bool get_argv_and_argc_of_pid(nint pid, out ArgvArgcResult result);
     [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static extern void free_ArgvArgcResult(ref ArgvArgcResult result);
