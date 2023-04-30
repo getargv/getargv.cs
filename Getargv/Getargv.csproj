@@ -9,7 +9,7 @@
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 
     <PackageId>Getargv</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
     <Authors>Camden Narzt</Authors>
     <Company>Getargv</Company>
     <Copyright>© 2023 Camden Narzt</Copyright>
