@@ -14,6 +14,11 @@
     <Company>Getargv</Company>
     <Copyright>© 2023 Camden Narzt</Copyright>
     <Description>C# bindings for libgetargv, a library to get other processes' args on macOS.</Description>
+    <PackageProjectUrl>https://getargv.narzt.cam/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/getargv/getargv.cs</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>macOS;process;arguments;pinvoke;interop;ffi;bindings;wrapper;ClassLib;C#;OSX;mac</PackageTags>
+    <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
 
@@ -21,11 +26,14 @@
     <EnablePackageValidation>true</EnablePackageValidation>
     <PackRelease>true</PackRelease>
     <PublishRelease>true</PublishRelease>
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="LICENSE.txt" Pack="true" PackagePath="" />
-    <None Include="README.md" Pack="true" PackagePath="" />
+    <None Include="../LICENSE" Pack="true" PackagePath="" />
+    <None Include="../README.md" Pack="true" PackagePath="" />
+    <None Include="../logo.svg" Pack="true" PackagePath="" />
+    <None Include="../icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
