@@ -7,53 +7,87 @@
     <HTML>
       <head>
         <style type="text/css">
+:root {
+  color-scheme: light dark;
+  --fonts: ui-sans-serif, system-ui, -system-ui, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji";
+}
+
+@media (prefers-color-scheme: light) {
+:root {
+  --link-color: rgb(54, 54, 204);
+  --bg-color: #f0f0f0;
+  --paper-bg: #f8f8f8;
+  --shadow-color: rgba(0,0,0, 0.1);
+  --edge-color: #0001;
+  --text: #5b5b5b;
+}
+}
+@media (prefers-color-scheme: dark) {
+:root {
+  --link-color: rgb(140, 140, 255);
+  --bg-color: #080808;
+  --paper-bg: #0f0f0f;
+  --shadow-color: black;
+  --edge-color: #fff1;
+  --text: #979797;
+}
+}
+
 body{
   padding: 10px 40px;
-  font-family: ui-sans-serif, system-ui, -system-ui, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji";
+  font-family: var(--fonts);
+  background-color: var(--bg-color);
+  color: var(--text);
 }
 
 section {
-  padding: 10px;
+  border-image-source: linear-gradient(to bottom left, var(--edge-color), transparent 50%);
+  border-image-slice: 1 1;
+  border-width: 1px 1px 0px 0px;
+  border-style: solid;
+  padding: 0px 15px 10px 15px;
+  box-shadow: -5px 5px 5px 0px var(--shadow-color);
+  margin: 10px 5px;
+  background-color: var(--paper-bg);
 }
 
 a{
   text-decoration: none;
+  color: var(--link-color);
 }
 a:visited{
-  color: blue;
+  color: var(--link-color);
 }
 .value:before{
   content:"Value:";
   margin-right:1em;
-  font-family: ui-sans-serif, system-ui, -system-ui, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji";
+  font-family: var(--fonts);
+}
+[id] > .name:before {
+  margin-right:1em;
 }
 [id^="type-"] > .name:before {
   content:"Type:";
-  margin-right:1em;
 }
 [id^="field-"] > .name:before {
   content:"Field:";
-  margin-right:1em;
 }
 [id^="method-"] > .name:before {
   content:"Method:";
-  margin-right:1em;
 }
 [id^="assembly-"] > .name:before {
   content:"Assembly:";
-  margin-right:1em;
 }
 [id^="property-"] > .name:before {
   content:"Property:";
-  margin-right:1em;
 }
 
 dl {
   display: grid;
   grid-template-columns: max-content auto;
 }
-dt {  grid-column-start: 1;}
-dd {  grid-column-start: 2;}
+dt {  grid-column-start: 1;  }
+dd {  grid-column-start: 2;  }
         </style>
       </head>
       <BODY>
