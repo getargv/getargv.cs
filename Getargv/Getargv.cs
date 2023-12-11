@@ -51,10 +51,18 @@ public static class Getargv
     const int ENAMETOOLONG = 63;
 
     //[DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static extern bool print_argv_of_pid(in byte start_pointer, in byte end_pointer);
-    [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static extern bool get_argv_of_pid(in GetArgvOptions options, out ArgvResult result);
-    [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static extern bool get_argv_and_argc_of_pid(nint pid, out ArgvArgcResult result);
-    [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static extern void free_ArgvArgcResult(ref ArgvArgcResult result);
-    [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static extern void free_ArgvResult(ref ArgvResult result);
+    [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.UserDirectories)]
+    static extern bool get_argv_of_pid(in GetArgvOptions options, out ArgvResult result);
+    [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.UserDirectories)]
+    static extern bool get_argv_and_argc_of_pid(nint pid, out ArgvArgcResult result);
+    [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.UserDirectories)]
+    static extern void free_ArgvArgcResult(ref ArgvArgcResult result);
+    [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.UserDirectories)]
+    static extern void free_ArgvResult(ref ArgvResult result);
 
     /// <summary>
     /// Get the arguments of the process specified by <paramref name="pid"/> as a byte array,
@@ -96,7 +104,7 @@ public static class Getargv
                 case ESRCH: throw new ArgumentException($"PID {pid} does not exist", nameof(pid));
                 case ENAMETOOLONG: throw new System.Data.DataException("Arguments of PID {pid} are malformed");
                 case ENOMEM: throw new InsufficientMemoryException("Failed to allocate memory");
-                case ERANGE: throw new ArgumentOutOfRangeException("Skipping more args than process has");
+                case ERANGE: throw new ArgumentOutOfRangeException(nameof(skip),"Skipping more args than process has");
                 default: throw new NotImplementedException("Unknown errno encountered.");
             }
         }
@@ -119,11 +127,13 @@ public static class Getargv
     /// <exception cref="InsufficientMemoryException">If malloc fails to allocate memory</exception>
     /// <exception cref="NotImplementedException">If an unexpected errno is encountered</exception>
     /// <exception cref="ArgumentNullException">If the argument bytes are null</exception>
+    /// <exception cref="ArgumentNullException">If the encoding argument is null</exception>
     /// <exception cref="System.Text.DecoderFallbackException">
     /// If a decoding fallback occurred (for more information, see <see href="https://learn.microsoft.com/en-us/dotnet/standard/base-types/character-encoding">Character Encoding in .NET</see>) -and- <see cref="System.Text.Encoding.DecoderFallback">DecoderFallback</see> is set to <see cref="System.Text.DecoderExceptionFallback">DecoderExceptionFallback</see>.
     ///</exception>
     public static string asString(int pid, System.Text.Encoding encoding, bool nuls = false, uint skip = 0)
     {
+        ArgumentNullException.ThrowIfNull(encoding);
         return encoding.GetString(asBytes(pid, nuls, skip));
     }
 
