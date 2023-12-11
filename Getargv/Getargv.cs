@@ -19,7 +19,7 @@ struct GetArgvOptions {
 unsafe struct ArgvArgcResult {
     public byte*  buffer;
     public byte** argv;
-    public nuint  argc;
+    public uint   argc;
 }
 
 [SupportedOSPlatform("macos")]
@@ -144,7 +144,7 @@ public static class Getargv
             int ptrSize = Marshal.SizeOf(typeof(Pointer));
             int byteSize = Marshal.SizeOf(typeof(byte));
             byte[][] ret = new byte[res.argc][];
-            for (nuint i = 0; i < res.argc; i++) {
+            for (uint i = 0; i < res.argc; i++) {
                 unsafe {
                     byte* ptr = (byte*)Marshal.ReadIntPtr((Pointer)res.argv, ptrSize * (int)i);
                     ulong len = 0;
