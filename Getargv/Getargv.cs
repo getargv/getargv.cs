@@ -2,6 +2,8 @@ using System;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
+using Pointer = System.IntPtr;
+
 namespace Getargv;
 
 [SupportedOSPlatform("macos")]
@@ -80,10 +82,10 @@ public static class Getargv
         ArgvResult res = new ArgvResult();
         if (get_argv_of_pid(in opt, out res)) {
             unsafe {
-                if ((IntPtr)res.start_pointer == IntPtr.Zero || (IntPtr)res.end_pointer == IntPtr.Zero || res.start_pointer == res.end_pointer) return new byte[0];
+                if ((Pointer)res.start_pointer == Pointer.Zero || (Pointer)res.end_pointer == Pointer.Zero || res.start_pointer == res.end_pointer) return Array.Empty<byte>();
                 var len = Convert.ToInt32(res.end_pointer - res.start_pointer + 1);
                 byte[] ret = new byte[len];
-                Marshal.Copy((IntPtr)res.start_pointer, ret, 0, len);
+                Marshal.Copy((Pointer)res.start_pointer, ret, 0, len);
                 free_ArgvResult(ref res);
                 return ret;
             }
@@ -139,22 +141,22 @@ public static class Getargv
         if (pid < 0 || pid > PID_MAX) throw new ArgumentOutOfRangeException($"pid {pid} out of range");
         ArgvArgcResult res = new ArgvArgcResult();
         if (get_argv_and_argc_of_pid(pid, out res)) {
-            int ptrSize = Marshal.SizeOf(typeof(IntPtr));
+            int ptrSize = Marshal.SizeOf(typeof(Pointer));
             int byteSize = Marshal.SizeOf(typeof(byte));
             byte[][] ret = new byte[res.argc][];
             for (nuint i = 0; i < res.argc; i++) {
                 unsafe {
-                    byte* ptr = (byte*)Marshal.ReadIntPtr((IntPtr)res.argv, ptrSize * (int)i);
+                    byte* ptr = (byte*)Marshal.ReadIntPtr((Pointer)res.argv, ptrSize * (int)i);
                     ulong len = 0;
                     if (i < res.argc-1) {
-                        byte* nextptr = (byte*)Marshal.ReadIntPtr((IntPtr)res.argv, ptrSize * ((int)i+1));
+                        byte* nextptr = (byte*)Marshal.ReadIntPtr((Pointer)res.argv, ptrSize * ((int)i+1));
                         len = (ulong)((nextptr-ptr)/byteSize);
                     } else {
-                        while (Marshal.ReadByte((IntPtr)ptr, (int)len) != 0){len++;}
+                        while (Marshal.ReadByte((Pointer)ptr, (int)len) != 0){len++;}
                         len++;// len was index of nul, add one to get length of byte[] including nul
                     }
                     ret[i] = new byte[len];
-                    Marshal.Copy((IntPtr)ptr, ret[i], 0, (int)len);
+                    Marshal.Copy((Pointer)ptr, ret[i], 0, (int)len);
                 }
             }
             free_ArgvArgcResult(ref res);
