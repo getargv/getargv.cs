@@ -39,10 +39,11 @@ jobs:
         path: getargv.cs
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
+      id: setup
       with:
         dotnet-version: ${{ matrix.dotnet }}
     - name: Create temporary global.json
-      run: echo '{"sdk":{"version": "${{ steps.stepid.outputs.dotnet-version }}"}}' > ./global.json
+      run: "echo '{\"sdk\":{\"version\": \"${{ steps.setup.outputs.dotnet-version }}\"}}' > ./global.json"
       working-directory: getargv.cs
     - name: Restore dependencies
       run: dotnet restore
