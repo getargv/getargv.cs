@@ -50,7 +50,6 @@ public static class Getargv
     const int ERANGE = 34;
     const int ENAMETOOLONG = 63;
 
-    //[DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)] static extern bool print_argv_of_pid(in byte start_pointer, in byte end_pointer);
     [DllImport("libgetargv.dylib", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.UserDirectories)]
     static extern bool get_argv_of_pid(in GetArgvOptions options, out ArgvResult result);
@@ -201,6 +200,4 @@ public static class Getargv
     {
         return Array.ConvertAll(asBytesArray(pid), b => encoding.GetString(b));
     }
-
-    // case EAGAIN: throw new __Exception($"printing to stdout failed");
 }
