@@ -21,12 +21,12 @@ jobs:
     strategy:
       matrix:
         dotnet:
-          - 8.0.x # EOL: 2026-11-10
-          - 7.0.x # EOL: 2024-05-14
-          - 6.0.x # EOL: 2024-11-12
+          - 8.0 # EOL: 2026-11-10
+          - 7.0 # EOL: 2024-05-14
+          - 6.0 # EOL: 2024-11-12
           # version support doc: https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         repository: getargv/getargv
         path: getargv
@@ -34,22 +34,19 @@ jobs:
     - name: Build libgetargv
       run: make install_dylib
       working-directory: getargv
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         path: getargv.cs
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       id: setup
       with:
-        dotnet-version: ${{ matrix.dotnet }}
+        dotnet-version: ${{ matrix.dotnet }}.x
     - name: Create temporary global.json
       run: "echo '{\"sdk\":{\"version\": \"${{ steps.setup.outputs.dotnet-version }}\"}}' > ./global.json"
       working-directory: getargv.cs
-    - name: Restore dependencies
-      run: dotnet restore
-      working-directory: getargv.cs
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --framework net${{ matrix.dotnet }}
       working-directory: getargv.cs
     - name: Test
       run: dotnet test --no-build --verbosity normal
