@@ -52,5 +52,5 @@ jobs:
       run: dotnet build --no-restore --framework net${{ matrix.dotnet }}
       working-directory: getargv.cs
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal --framework net${{ matrix.dotnet }}
       working-directory: getargv.cs
