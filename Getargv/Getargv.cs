@@ -102,10 +102,10 @@ public static class Getargv
             switch (Marshal.GetLastPInvokeError()) {
                 case EPERM: throw new UnauthorizedAccessException($"Do not have permission to access args of PID: {pid}");
                 case ESRCH: throw new ArgumentException($"PID {pid} does not exist", nameof(pid));
-                case ENAMETOOLONG: throw new System.Data.DataException("Arguments of PID {pid} are malformed");
+                case ENAMETOOLONG: throw new System.Data.DataException($"Arguments of PID {pid} are malformed");
                 case ENOMEM: throw new InsufficientMemoryException("Failed to allocate memory");
                 case ERANGE: throw new ArgumentOutOfRangeException(nameof(skip),"Skipping more args than process has");
-                default: throw new NotImplementedException("Unknown errno encountered.");
+                default: throw new NotImplementedException("Unknown errno encountered");
             }
         }
     }
@@ -176,9 +176,9 @@ public static class Getargv
             switch (Marshal.GetLastPInvokeError()) {
                 case EPERM: throw new UnauthorizedAccessException($"Do not have permission to access args of PID: {pid}");
                 case ESRCH: throw new ArgumentException($"PID {pid} does not exist", nameof(pid));
-                case ENAMETOOLONG: throw new System.Data.DataException("Arguments of PID {pid} are malformed");
+                case ENAMETOOLONG: throw new System.Data.DataException($"Arguments of PID {pid} are malformed");
                 case ENOMEM: throw new InsufficientMemoryException("Failed to allocate memory.");
-                default: throw new NotImplementedException("Unknown errno encountered.");
+                default: throw new NotImplementedException("Unknown errno encountered");
             }
         }
     }
