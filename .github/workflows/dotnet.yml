@@ -45,8 +45,11 @@ jobs:
     - name: Create temporary global.json
       run: "echo '{\"sdk\":{\"version\": \"${{ steps.setup.outputs.dotnet-version }}\"}}' > ./global.json"
       working-directory: getargv.cs
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: getargv.cs
     - name: Build
-      run: dotnet build --framework net${{ matrix.dotnet }}
+      run: dotnet build --no-restore --framework net${{ matrix.dotnet }}
       working-directory: getargv.cs
     - name: Test
       run: dotnet test --no-build --verbosity normal
