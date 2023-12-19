@@ -22,8 +22,8 @@ jobs:
       matrix:
         dotnet:
           - 8.0.x # EOL: 2026-11-10
-          #- 7.0.x # EOL: 2024-05-14
-          #- 6.0.x # EOL: 2024-11-12
+          - 7.0.x # EOL: 2024-05-14
+          - 6.0.x # EOL: 2024-11-12
           # version support doc: https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core
     steps:
     - uses: actions/checkout@v3
