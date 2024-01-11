@@ -46,7 +46,7 @@ jobs:
       run: "echo '{\"sdk\":{\"version\": \"${{ steps.setup.outputs.dotnet-version }}\"}}' > ./global.json"
       working-directory: getargv.cs
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore -p:TargetFramework=net${{ matrix.dotnet }}
       working-directory: getargv.cs
     - name: Build
       run: dotnet build --no-restore --framework net${{ matrix.dotnet }}
