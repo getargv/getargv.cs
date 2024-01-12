@@ -54,3 +54,46 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal --framework net${{ matrix.dotnet }}.0
       working-directory: getargv.cs
+
+  release:
+    runs-on: macos-latest
+    needs: [ build ]
+    name: Publish package
+    permissions:
+      contents: read
+      packages: write
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        repository: getargv/getargv
+        path: getargv
+        token: ${{ secrets.GH_PAT }}
+    - name: Build libgetargv
+      run: make install_dylib
+      working-directory: getargv
+    - uses: actions/checkout@v4
+      with:
+        path: getargv.cs
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      id: setup
+      with:
+        dotnet-version: 8
+    - name: Create temporary global.json
+      run: "echo '{\"sdk\":{\"version\": \"${{ steps.setup.outputs.dotnet-version }}\"}}' > ./global.json"
+      working-directory: getargv.cs
+    - run: dotnet build
+      working-directory: getargv.cs
+    - name: Create the package
+      run: dotnet pack --configuration Release Getargv
+      working-directory: getargv.cs
+    - name: Publish the package to GPR
+      run: dotnet nuget push Getargv/bin/Release/*.nupkg -k $NUGET_AUTH_TOKEN -s https://nuget.pkg.github.com/getargv/index.json
+      working-directory: getargv.cs
+      env:
+        NUGET_AUTH_TOKEN: ${{github.token}}
+    - name: Publish the package to nuget.org
+      run: dotnet nuget push Getargv/bin/Release/*.nupkg -k $NUGET_AUTH_TOKEN -s https://api.nuget.org/v3/index.json
+      working-directory: getargv.cs
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.NUGET_TOKEN }}
