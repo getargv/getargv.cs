@@ -93,20 +93,20 @@ jobs:
       run: echo "new_version=$(./bump_version)" >> $GITHUB_OUTPUT
       working-directory: getargv.cs
 
-    - name: create && push tag
-      run: |
-        git commit -am 'release ${{ steps.bump_version.outputs.new_version }}'
-        git tag 'v${{ steps.bump_version.outputs.new_version }}'
-        git push origin tag 'v${{ steps.bump_version.outputs.new_version }}'
-        git push origin HEAD:main
-      working-directory: getargv.cs
-
     - name: Build
       run: dotnet build --framework net${{ matrix.dotnet }}.0
       working-directory: getargv.cs
 
     - name: Create the package
       run: dotnet pack --configuration Release Getargv
+      working-directory: getargv.cs
+
+    - name: create && push tag
+      run: |
+        git commit -am 'release ${{ steps.bump_version.outputs.new_version }}'
+        git tag 'v${{ steps.bump_version.outputs.new_version }}'
+        git push origin tag 'v${{ steps.bump_version.outputs.new_version }}'
+        git push origin HEAD:main
       working-directory: getargv.cs
 
     - name: Publish the package to GPR
