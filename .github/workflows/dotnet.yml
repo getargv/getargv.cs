@@ -21,6 +21,7 @@ jobs:
     strategy:
       matrix:
         dotnet:
+          # update other matrix's version below when new latest released
           - 8 # EOL: 2026-11-10
           - 7 # EOL: 2024-05-14
           - 6 # EOL: 2024-11-12
@@ -62,6 +63,10 @@ jobs:
     permissions:
       contents: read
       packages: write
+    strategy:
+      matrix:
+        dotnet:
+          - 8 # Check above for newest version
     steps:
     - uses: actions/checkout@v4
       with:
@@ -78,22 +83,40 @@ jobs:
       uses: actions/setup-dotnet@v4
       id: setup
       with:
-        dotnet-version: 8
+        dotnet-version: ${{ matrix.dotnet }}.0.x
     - name: Create temporary global.json
       run: "echo '{\"sdk\":{\"version\": \"${{ steps.setup.outputs.dotnet-version }}\"}}' > ./global.json"
       working-directory: getargv.cs
-    - run: dotnet build
+
+    - name: Bump version
+      id: bump_version
+      run: echo "new_version=$(./bump_version)" >> $GITHUB_OUTPUT
       working-directory: getargv.cs
+
+    - name: create && push tag
+      run: |
+        git commit -am 'release ${{ steps.bump_version.outputs.new_version }}'
+        git tag 'v${{ steps.bump_version.outputs.new_version }}'
+        git push origin tag 'v${{ steps.bump_version.outputs.new_version }}'
+        git push origin HEAD:main
+      working-directory: getargv.cs
+
+    - name: Build
+      run: dotnet build --framework net${{ matrix.dotnet }}.0
+      working-directory: getargv.cs
+
     - name: Create the package
       run: dotnet pack --configuration Release Getargv
       working-directory: getargv.cs
+
     - name: Publish the package to GPR
       run: dotnet nuget push Getargv/bin/Release/*.nupkg -k $NUGET_AUTH_TOKEN -s https://nuget.pkg.github.com/getargv/index.json
-      working-directory: getargv.cs
       env:
         NUGET_AUTH_TOKEN: ${{github.token}}
+      working-directory: getargv.cs
+
     - name: Publish the package to nuget.org
       run: dotnet nuget push Getargv/bin/Release/*.nupkg -k $NUGET_AUTH_TOKEN -s https://api.nuget.org/v3/index.json
-      working-directory: getargv.cs
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.NUGET_TOKEN }}
+      working-directory: getargv.cs

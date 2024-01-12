@@ -1,0 +1,11 @@
+#!/usr/bin/ruby
+
+require 'rexml/document'
+
+path = "Getargv/Getargv.csproj"
+doc = File.open(path, "r") { |file| REXML::Document.new(file) }
+doc.context[:attribute_quote] = :quote
+elem = doc.root.get_elements("/Project/PropertyGroup/Version").first
+elem.text = "#{Gem::Version.new(elem.text).bump}.0"
+File.open(path, 'w') { |file| doc.write(file) }
+puts elem.text
