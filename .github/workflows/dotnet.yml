@@ -61,7 +61,7 @@ jobs:
     needs: [ build ]
     name: Publish package
     permissions:
-      contents: read
+      contents: write
       packages: write
     strategy:
       matrix:
