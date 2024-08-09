@@ -12,7 +12,7 @@
     <Version>0.4.0</Version>
     <Authors>Camden Narzt</Authors>
     <Company>Getargv</Company>
-    <Copyright>© 2023 Camden Narzt</Copyright>
+    <Copyright>© 2024 Camden Narzt</Copyright>
     <Description>C# bindings for libgetargv, a library to get other processes' args on macOS.</Description>
     <PackageProjectUrl>https://getargv.narzt.cam/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/getargv/getargv.cs</RepositoryUrl>
