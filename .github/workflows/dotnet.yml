@@ -22,9 +22,10 @@ jobs:
       matrix:
         dotnet:
           # update other matrix's version below when new latest released
-          - 8 # EOL: 2026-11-10
-          - 7 # EOL: 2024-05-14
-          - 6 # EOL: 2024-11-12
+          #- 10 # REL: 2025-11-10 EOL: 2028-11-11
+          #- 9  # REL: 2024-11-10 EOL: 2026-11-11
+          - 8  # EOL: 2026-11-10
+          - 6  # EOL: 2024-11-12
           # version support doc: https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core
     steps:
     - uses: actions/checkout@v4
