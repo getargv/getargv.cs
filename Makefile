@@ -6,16 +6,16 @@ test:
 	dotnet test
 clean:
 	dotnet clean
-	find . \( -name bin -o -name obj \) -exec rm -rf {} \+
+	find . \( -name bin -o -name obj \) -delete
 
 run:
-	dotnet run
+	dotnet run --project Getargv.Tool
 
 pack:
 	dotnet pack Getargv
 
 sign: pack
-	dotnet nuget sign ./Getargv/bin/Release/Getargv.*.nupkg --certificate-path <PathToTheCertificate> --timestamper <TimestampServiceURL>
+	dotnet nuget sign ./Getargv/bin/Release/Getargv.*.nupkg --certificate-path $(PathToTheCertificate) --timestamper $(TimestampServiceURL)
 
 #publish: sign
 publish: pack
