@@ -148,8 +148,8 @@ public static class Getargv
         if (pid < 0 || pid > PID_MAX) throw new ArgumentOutOfRangeException($"pid {pid} out of range");
         ArgvArgcResult res = new ArgvArgcResult();
         if (get_argv_and_argc_of_pid(pid, out res)) {
-            int ptrSize = Marshal.SizeOf(typeof(IntPtr));
-            int byteSize = Marshal.SizeOf(typeof(byte));
+            int ptrSize = Marshal.SizeOf<IntPtr>();
+            int byteSize = Marshal.SizeOf<byte>();
             byte[][] ret = new byte[res.argc][];
             for (uint i = 0; i < res.argc; i++) {
                 unsafe {
