@@ -1,8 +1,31 @@
 using System;
+using System.IO;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
 namespace Getargv;
+
+[SupportedOSPlatform("macos")]
+internal static class NativeLibraryResolver
+{
+    [ModuleInitializer]
+    internal static void Initialize() {
+        NativeLibrary.SetDllImportResolver(Assembly.GetExecutingAssembly(), DllImportResolver);
+    }
+
+    private static IntPtr DllImportResolver(string libraryName, Assembly assembly, DllImportSearchPath? searchPath) {
+        string[] paths = {$"/opt/homebrew/lib/{libraryName}", $"/usr/local/lib/{libraryName}", $"/opt/local/lib/{libraryName}"};
+        string? path = Array.Find(paths, p => Path.Exists(p));
+        if (path != null) {
+            return NativeLibrary.Load(path);
+        } else {
+            // fallback to default impl by returning null
+            return default;
+        }
+    }
+}
 
 [SupportedOSPlatform("macos")]
 [StructLayout(LayoutKind.Sequential)]
