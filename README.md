@@ -31,4 +31,4 @@ Running `make install_dylib`, installs the library to the `/usr/local/` prefix b
 I'm working on building binary artifacts to install without compilation, using `pkg` installers, however even once that's done, depending on your system, it may still be necessary to compile from source; eg. if you have built your own xnu kernel with a custom `PID_MAX` value.
 
 ## Building `libgetargv`
-I've built `libgetargv` on macOS 10.7-15, using only the <abbr title="Command Line Tools">CLT</abbr> package, not the full Xcode install. If you need to override variables, do so inside the `make` command, eg: `make EXTRA_CPPFLAGS=-DMACRO EXTRA_CFLAGS=-std=c17 dylib`. Since c# did not exist when 10.6 was current, that should not be a concern for this project.
+I've built `libgetargv` on each version of macOS from 10.7 on using only the <abbr title="Command Line Tools">CLT</abbr> package, not the full Xcode install. If you need to override variables, do so inside the `make` command, eg: `make EXTRA_CPPFLAGS=-DMACRO EXTRA_CFLAGS=-std=c17 dylib`. Since c# did not exist when 10.6 was current, that should not be a concern for this project.
