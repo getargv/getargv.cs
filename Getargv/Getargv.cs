@@ -219,6 +219,6 @@ public static class Getargv
     /// </exception>
     public static string[] asArray(int pid, System.Text.Encoding encoding)
     {
-        return Array.ConvertAll(asBytesArray(pid), b => encoding.GetString(b));
+        return Array.ConvertAll(asBytesArray(pid), b => encoding.GetString(b[0..^1]));
     }
 }
