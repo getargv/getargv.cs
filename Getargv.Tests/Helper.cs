@@ -1,9 +1,14 @@
 namespace Getargv.Tests;
 
+using System.Runtime.InteropServices;
+using System.Diagnostics;
+
 class TestHelper {
     public static string[] args() {
+        string homebrew_prefix = RuntimeInformation.ProcessArchitecture == Architecture.Arm64 ? "/opt/homebrew" : "/usr/local";
+        string exe = Environment.ProcessPath ?? Process.GetCurrentProcess()?.MainModule?.FileName ?? $"{homebrew_prefix}/Cellar/dotnet/{Environment.Version}/libexec/dotnet";
         return new string[]{
-            Environment.ProcessPath ?? System.Diagnostics.Process.GetCurrentProcess()?.MainModule?.FileName ?? "/usr/local/Cellar/dotnet/7.0.100/libexec/dotnet",
+            exe,
             "exec",
             "--runtimeconfig",
             $"{Environment.CurrentDirectory}/Getargv.Tests.runtimeconfig.json",
