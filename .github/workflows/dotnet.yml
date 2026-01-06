@@ -27,7 +27,7 @@ jobs:
           - 8  # EOL: 2026-11-10
           # version support doc: https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         repository: getargv/getargv
         path: getargv
@@ -38,7 +38,7 @@ jobs:
     - name: Install libgetargv
       run: sudo make install_dylib
       working-directory: getargv
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         path: getargv.cs
     - name: Setup .NET
@@ -72,7 +72,7 @@ jobs:
         dotnet:
           - 10 # Check above for newest version
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         repository: getargv/getargv
         path: getargv
@@ -83,7 +83,7 @@ jobs:
     - name: Install libgetargv
       run: sudo make install_dylib
       working-directory: getargv
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         path: getargv.cs
     - name: Setup .NET
